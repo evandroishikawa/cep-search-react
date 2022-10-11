@@ -1,0 +1,53 @@
+$success-green: #4ca56e;
+
+.container {
+  cursor: text;
+  position: relative;
+  width: fit-content;
+  display: flex;
+  padding: 8px;
+  border: 2px solid grey;
+  border-radius: 4px;
+
+  &.containerSuccess {
+    border-color: #4ca56e;
+  }
+
+  &.containerError {
+    border-color: #b93535;
+  }
+}
+
+.input {
+  border: none;
+  font-size: 16px;
+}
+
+.label {
+  cursor: text;
+  font-weight: 500;
+  position: absolute;
+
+  background-color: transparent;
+
+  transition: 0.2s;
+  transition-timing-function: ease;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  opacity: 0.7;
+
+  &.labelFocused {
+    background-color: white;
+    border-radius: 50%;
+    opacity: 1;
+    transform: scale(0.9) translateY(-110%) translateX(-8px);
+  }
+
+  &.labelSuccess {
+    color: #4ca56e;
+  }
+
+  &.labelError {
+    color: #b93535;
+  }
+}

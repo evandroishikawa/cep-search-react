@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+$neutral-800: #231b22;
+$success-green: #4ca56e;
+
+body {
+  height: inherit;
+  width: inherit;
+  font: normal 1rem Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: $neutral-800;
+  background: mix(black, #ffffff, 1.5%);
+}
+
+input,
+button {
+  font: normal 1rem Roboto, sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}

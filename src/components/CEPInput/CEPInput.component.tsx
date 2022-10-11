@@ -5,8 +5,12 @@ import { cepAtom } from '@/atoms';
 
 import { Input } from '@/components/common';
 
+import { CEP_REGEX } from '@/constants';
+
 const CEPInput = () => {
   const [cep, setCEP] = useAtom(cepAtom);
+
+  const cepSuccess = !!cep.value && !!cep.value.match(CEP_REGEX) && !cep.error;
 
   const handleCEPInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -33,7 +37,13 @@ const CEPInput = () => {
   };
 
   return (
-    <Input name="cep" value={cep.value} onChange={handleCEPInput} />
+    <Input
+      name="cep"
+      label="Digite o seu CEP"
+      value={cep.value}
+      onChange={handleCEPInput}
+      success={cepSuccess}
+    />
   );
 };
 
