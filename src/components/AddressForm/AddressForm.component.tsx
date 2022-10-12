@@ -5,31 +5,77 @@ import { addressAtom } from '@/atoms';
 import { Form, Input } from '@/components/common';
 
 import styles from './AddressForm.module.scss';
+import { addressToText } from '@/utils/formatters';
 
 const AddressForm = () => {
   const address = useAtomValue(addressAtom);
 
   const handleSubmit = (data: IAddress) => {
-    console.log(data);
-  };
+    const textAddress = addressToText(data);
 
-  if (!address) return <></>;
+    navigator.clipboard.writeText(textAddress);
+  };
 
   return (
     <Form<IAddress> id="address-form" onSubmit={handleSubmit} className={styles.form}>
-      <Input name="logradouro" defaultValue={address.logradouro} />
+      <Input
+        name="logradouro"
+        label="Logradouro"
+        disabled={!address}
+        defaultValue={address?.logradouro}
+        fixed
+      />
 
-      <Input name="bairro" defaultValue={address.bairro} />
+      <Input
+        name="numero"
+        label="Número"
+        fixed
+        disabled={!address}
+        defaultValue={address?.numero}
+      />
 
-      <Input name="localidade" defaultValue={address.localidade} />
+      <Input
+        name="complemento"
+        label="Complemento"
+        fixed
+        disabled={!address}
+        defaultValue={address?.complemento}
+      />
 
-      <Input name="uf" defaultValue={address.uf} />
+      <Input
+        name="bairro"
+        label="Bairro"
+        fixed
+        disabled={!address}
+        defaultValue={address?.bairro}
+      />
 
-      <Input name="numero" defaultValue={address.numero} />
+      <Input
+        name="localidade"
+        label="Cidade"
+        fixed
+        disabled={!address}
+        defaultValue={address?.localidade}
+      />
 
-      <Input name="complemento" defaultValue={address.complemento} />
+      <Input
+        name="uf"
+        label="Estado"
+        fixed
+        disabled={!address}
+        defaultValue={address?.uf}
+      />
 
-      <button form="address-form">Copiar</button>
+      <Input
+        name="cep"
+        label="CEP"
+        fixed
+        hidden
+        disabled
+        defaultValue={address?.cep}
+      />
+
+      <button form="address-form">Copiar para compartilhar</button>
     </Form>
   );
 };

@@ -1,5 +1,5 @@
 /**
- * IAddress data structure
+ * Address data structure
  * @param {string} cep - Brazilian zip code
  * @param {string} logradouro - street name
  * @param {string} complemento - address' complement

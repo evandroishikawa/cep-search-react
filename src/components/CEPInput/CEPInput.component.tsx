@@ -13,7 +13,7 @@ import { useToast } from '@/hooks';
 
 const CEPInput = () => {
   const [cep, setCEP] = useAtom(cepAtom);
-  const setIAddress = useSetAtom(addressAtom);
+  const setAddress = useSetAtom(addressAtom);
   const { addToast } = useToast();
 
   const cepSuccess = !!cep.value && !!cep.value.match(CEP_REGEX) && !cep.error;
@@ -42,7 +42,7 @@ const CEPInput = () => {
     else if (isValidCEP) {
       await viaCEP
         .get<Omit<IAddress, 'numero' | 'complemento'>>(`${cep.replace(/-/g, '')}/json`)
-        .then(({ data }) => setIAddress({
+        .then(({ data }) => setAddress({
           bairro: data.bairro,
           cep: data.cep,
           localidade: data.localidade,
@@ -53,8 +53,13 @@ const CEPInput = () => {
           console.error(error);
 
           setCEP(prevCEP => ({ ...prevCEP, error: true }));
+          addToast({
+            heading: 'CEP inválido',
+            message: 'Confira os dados inseridos',
+            type: 'error',
+          });
 
-          setIAddress(null);
+          setAddress(null);
         })
     }
   };

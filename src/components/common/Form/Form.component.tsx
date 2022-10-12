@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { FormEvent, FormHTMLAttributes } from 'react';
 import { INPUT_ELEMENTS } from '@/constants';
 import { getFormData } from './getFormData';
@@ -9,7 +9,7 @@ interface FormProps<T = any> extends Omit<FormHTMLAttributes<HTMLFormElement>, '
   onSubmit: (data: T) => void;
 }
 
-function Form<T = any>({ children, onSubmit, ...rest }: FormProps<T>) {
+function Form<T = any>({ children, initialData, onSubmit, ...rest }: FormProps<T>) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

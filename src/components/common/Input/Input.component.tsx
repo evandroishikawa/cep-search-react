@@ -7,11 +7,13 @@ import styles from './Input.module.scss';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   error?: boolean;
+  fixed?: boolean;
+  hidden?: boolean;
   label?: string;
   success?: boolean;
 }
 
-const Input = (({ name, error, label, success, ...rest }: InputProps) => {
+const Input = (({ className, name, error, fixed, hidden, label, success, ...rest }: InputProps) => {
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -21,11 +23,14 @@ const Input = (({ name, error, label, success, ...rest }: InputProps) => {
 
   return (
     <div
-      className={clsx('InputComponent', styles.container, {
+      className={clsx('InputComponent', styles.container, className, {
         [styles.containerSuccess]: success,
         [styles.containerError]: error,
+        [styles.hidden]: hidden,
       })}
       onClick={() => {
+        if (rest.disabled) return;
+
         setFocused(true);
 
         inputRef.current?.focus();
@@ -38,6 +43,7 @@ const Input = (({ name, error, label, success, ...rest }: InputProps) => {
             [styles.labelFocused]: focused,
             [styles.labelSuccess]: success,
             [styles.labelError]: error,
+            [styles.labelFixed]: fixed,
           })}
         >
           {label}
