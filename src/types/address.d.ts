@@ -1,5 +1,5 @@
 /**
- * Address data structure
+ * IAddress data structure
  * @param {string} cep - Brazilian zip code
  * @param {string} logradouro - street name
  * @param {string} complemento - address' complement
@@ -7,7 +7,7 @@
  * @param {string} localidade - city
  * @param {string} uf - state
  */
-interface Address {
+interface IAddress {
   bairro: string;
   cep: string;
   complemento?: string;

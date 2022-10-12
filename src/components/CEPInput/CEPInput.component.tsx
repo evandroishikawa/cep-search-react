@@ -9,10 +9,12 @@ import { CEP_REGEX } from '@/constants';
 
 import { formatCEP } from '@/utils/formatters';
 import { viaCEP } from '@/utils';
+import { useToast } from '@/hooks';
 
 const CEPInput = () => {
   const [cep, setCEP] = useAtom(cepAtom);
-  const setAddress = useSetAtom(addressAtom);
+  const setIAddress = useSetAtom(addressAtom);
+  const { addToast } = useToast();
 
   const cepSuccess = !!cep.value && !!cep.value.match(CEP_REGEX) && !cep.error;
 
@@ -27,12 +29,20 @@ const CEPInput = () => {
 
     const isValidCEP = cep.match(CEP_REGEX);
 
-    if (cep.length === 9 && !isValidCEP) setCEP(prevCEP => ({ ...prevCEP, error: 'CEP inválido' }));
+    if (cep.length === 9 && !isValidCEP) {
+      setCEP(prevCEP => ({ ...prevCEP, error: true }));
+
+      addToast({
+        heading: 'CEP inválido',
+        message: 'Confira os dados inseridos',
+        type: 'error',
+      });
+    }
 
     else if (isValidCEP) {
       await viaCEP
-        .get<Omit<Address, 'numero' | 'complemento'>>(`${cep.replace(/-/g, '')}/json`)
-        .then(({ data }) => setAddress({
+        .get<Omit<IAddress, 'numero' | 'complemento'>>(`${cep.replace(/-/g, '')}/json`)
+        .then(({ data }) => setIAddress({
           bairro: data.bairro,
           cep: data.cep,
           localidade: data.localidade,
@@ -42,9 +52,9 @@ const CEPInput = () => {
         .catch((error) => {
           console.error(error);
 
-          setCEP(prevCEP => ({ ...prevCEP, error: 'CEP inválido' }));
+          setCEP(prevCEP => ({ ...prevCEP, error: true }));
 
-          setAddress(null);
+          setIAddress(null);
         })
     }
   };

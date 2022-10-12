@@ -6,7 +6,7 @@ import styles from './Input.module.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  error?: string;
+  error?: boolean;
   label?: string;
   success?: boolean;
 }
@@ -23,7 +23,7 @@ const Input = (({ name, error, label, success, ...rest }: InputProps) => {
     <div
       className={clsx('InputComponent', styles.container, {
         [styles.containerSuccess]: success,
-        [styles.containerError]: !!error,
+        [styles.containerError]: error,
       })}
       onClick={() => {
         setFocused(true);
@@ -37,7 +37,7 @@ const Input = (({ name, error, label, success, ...rest }: InputProps) => {
           className={clsx(styles.label, {
             [styles.labelFocused]: focused,
             [styles.labelSuccess]: success,
-            [styles.labelError]: !!error,
+            [styles.labelError]: error,
           })}
         >
           {label}

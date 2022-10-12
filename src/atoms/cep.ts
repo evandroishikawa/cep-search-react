@@ -2,10 +2,10 @@ import { atom } from 'jotai';
 
 export interface CEPAtom {
   value: string;
-  error?: string;
+  error?: boolean;
 }
 
 export const cepAtom = atom<CEPAtom>({
   value: '',
-  error: undefined,
+  error: false,
 });

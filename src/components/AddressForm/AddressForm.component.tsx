@@ -9,14 +9,14 @@ import styles from './AddressForm.module.scss';
 const AddressForm = () => {
   const address = useAtomValue(addressAtom);
 
-  const handleSubmit = (data: Address) => {
+  const handleSubmit = (data: IAddress) => {
     console.log(data);
   };
 
   if (!address) return <></>;
 
   return (
-    <Form<Address> id="address-form" onSubmit={handleSubmit} className={styles.form}>
+    <Form<IAddress> id="address-form" onSubmit={handleSubmit} className={styles.form}>
       <Input name="logradouro" defaultValue={address.logradouro} />
 
       <Input name="bairro" defaultValue={address.bairro} />

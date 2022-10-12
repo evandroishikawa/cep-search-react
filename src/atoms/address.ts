@@ -1,3 +1,3 @@
 import { atom } from 'jotai';
 
-export const addressAtom = atom<Address | null>(null);
+export const addressAtom = atom<IAddress | null>(null);

@@ -1,4 +1,6 @@
+export { addressAtom } from './address';
+
 export { cepAtom } from './cep';
 export type { CEPAtom } from './cep';
 
-export { addressAtom } from './address';
+export { toastsAtom } from './toasts';

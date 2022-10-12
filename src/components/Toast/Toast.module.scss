@@ -1,0 +1,60 @@
+.container {
+  margin-top: 32px;
+  margin-right: 32px;
+
+  width: 360px;
+  position: relative;
+  padding: 16px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+  display: flex;
+
+  > svg {
+    margin-right: 16px;
+  }
+
+  > .content {
+    flex: 1;
+
+    > p {
+      margin-top: 8px;
+      opacity: 0.9;
+      white-space: pre-line;
+    }
+  }
+
+  > button {
+    width: 24px;
+    height: 24px;
+    opacity: 0.6;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  & + & {
+    margin-top: 8px;
+  }
+}
+
+.info {
+  background: mix(white, #afaaeb, 10%);
+  color: mix(black, #afaaeb, 90%);
+}
+
+.success {
+  background: mix(white, #00e498, 5%);
+  color: mix(black, #00e498, 90%);
+}
+
+.error {
+  background: mix(white, #fa0e0e, 70%);
+  color: mix(black, #fa0e0e, 60%);
+}
+
+.warning {
+  background: mix(white, #f3d08d, 5%);
+  color: mix(black, #f3d08d, 90%);
+}
