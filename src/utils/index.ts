@@ -1,0 +1,1 @@
+export { viaCEP } from './api';
