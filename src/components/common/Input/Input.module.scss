@@ -18,9 +18,14 @@
   &.hidden {
     display: none;
   }
+
+  &.disabled {
+    background: #95959553;
+  }
 }
 
 .input {
+  background: transparent;
   border: none;
   font-size: 16px;
 }
@@ -30,6 +35,8 @@
   font-weight: 500;
   position: absolute;
 
+  padding: 0 2px;
+  border-radius: 5px;
   background-color: transparent;
 
   transition: 0.2s;
@@ -40,9 +47,8 @@
 
   &.labelFocused {
     background-color: white;
-    border-radius: 50%;
     opacity: 1;
-    transform: scale(0.9) translateY(-110%) translateX(-8px);
+    transform: scale(0.8) translateY(-120%) translateX(-12px);
   }
 
   &.labelSuccess {
@@ -55,8 +61,7 @@
 
   &.labelFixed {
     background-color: white;
-    border-radius: 50%;
     opacity: 1;
-    transform: scale(0.9) translateY(-110%) translateX(-8px);
+    transform: scale(0.8) translateY(-120%) translateX(-12px);
   }
 }

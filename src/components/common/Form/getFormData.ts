@@ -6,13 +6,17 @@ export function getFormData(collection: HTMLCollection) {
   for (let i = 0; i < collection.length; i++) {
     const child = collection[i];
 
-    if (INPUT_ELEMENTS.includes(child.tagName)){
-      const { name, value } = child as HTMLInputElement
+    if (child.tagName === 'svg') break;
+
+    if (INPUT_ELEMENTS.includes(child.tagName)) {
+      const { name, value } = child as HTMLInputElement;
 
       Object.assign(formData, { [name]: value });
-    }
+    } else if (child.className.includes('InputComponent')) {
+      const data = getFormData(child.children);
 
-    if (child.className.includes('InputComponent')) {
+      Object.assign(formData, data);
+    } else {
       const data = getFormData(child.children);
 
       Object.assign(formData, data);

@@ -2,6 +2,34 @@
   margin-top: 40px;
 
   display: flex;
+  flex-direction: column;
+
+  gap: 24px 0;
+
+  width: 50%;
+}
+
+.inputs {
+  display: flex;
   flex-wrap: wrap;
   gap: 16px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  width: fit-content;
+
+  > svg {
+    height: 24px;
+    width: 24px;
+    color: #32205f;
+  }
+}
+
+.item {
+  flex: 1;
 }

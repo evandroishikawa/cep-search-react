@@ -1,17 +1,21 @@
 import { useAtom, useSetAtom } from 'jotai';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { addressAtom, cepAtom } from '@/atoms';
 
-import { Input } from '@/components/common';
+import { Input, Loader } from '@/components/common';
 
 import { CEP_REGEX } from '@/constants';
 
-import { formatCEP } from '@/utils/formatters';
-import { viaCEP } from '@/utils';
 import { useToast } from '@/hooks';
 
+import { viaCEP } from '@/utils';
+import { formatCEP } from '@/utils/formatters';
+
+import styles from './CEPInput.module.scss';
+
 const CEPInput = () => {
+  const [loading, setLoading] = useState(false);
   const [cep, setCEP] = useAtom(cepAtom);
   const setAddress = useSetAtom(addressAtom);
   const { addToast } = useToast();
@@ -40,6 +44,8 @@ const CEPInput = () => {
     }
 
     else if (isValidCEP) {
+      setLoading(true);
+
       await viaCEP
         .get<Omit<IAddress, 'numero' | 'complemento'>>(`${cep.replace(/-/g, '')}/json`)
         .then(({ data }) => setAddress({
@@ -61,18 +67,23 @@ const CEPInput = () => {
 
           setAddress(null);
         })
+        .finally(() => setLoading(false));
     }
   };
 
   return (
-    <Input
-      name="cep"
-      label="Digite o seu CEP"
-      value={cep.value}
-      onChange={handleCEPInput}
-      success={cepSuccess}
-      error={cep.error}
-    />
+    <div className={styles.container}>
+      <Input
+        name="cep"
+        label="Digite o seu CEP"
+        value={cep.value}
+        onChange={handleCEPInput}
+        success={cepSuccess}
+        error={cep.error}
+      />
+
+      {loading && <Loader  />}
+    </div>
   );
 };
 

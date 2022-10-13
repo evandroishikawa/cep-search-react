@@ -34,8 +34,6 @@ const Toast = ({ toast, style: { life, ...style } }: ToastProps) => {
     };
   }, [toast, removeToast]);
 
-  console.log(life, style);
-
   return (
     <animated.div className={clsx(styles.container, styles[toast.type])} style={style}>
       {icons[toast.type]}

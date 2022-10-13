@@ -26,6 +26,7 @@ const Input = (({ className, name, error, fixed, hidden, label, success, ...rest
       className={clsx('InputComponent', styles.container, className, {
         [styles.containerSuccess]: success,
         [styles.containerError]: error,
+        [styles.disabled]: rest.disabled,
         [styles.hidden]: hidden,
       })}
       onClick={() => {

@@ -1,0 +1,37 @@
+.container {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+
+  transition: 300ms ease-out;
+
+  &:disabled {
+    background: #959595;
+    color: #fff;
+  }
+}
+
+.primary {
+  color: #bee41e;
+  background: linear-gradient(to left, #32205f 50%, #bee41e 50%) right;
+  background-size: 200%;
+
+  &:hover:not([disabled]) {
+    background-position: left;
+    color: #32205f;
+  }
+}
+
+.secondary {
+  color: #32205f;
+  background: linear-gradient(to right, #bee41e 50%, #32205f 50%) left;
+  background-size: 200%;
+
+  &:hover:not([disabled]) {
+    background-position: right;
+    color: #bee41e;
+  }
+}
