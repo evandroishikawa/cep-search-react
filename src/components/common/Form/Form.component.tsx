@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { FormEvent, FormHTMLAttributes } from 'react';
-import { INPUT_ELEMENTS } from '@/constants';
+
 import { getFormData } from './getFormData';
+import { resetFormData } from './resetFormData';
 
 interface FormProps<T = any> extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface FormProps<T = any> extends Omit<FormHTMLAttributes<HTMLFormElement>, '
   onSubmit: (data: T) => void;
 }
 
-function Form<T = any>({ children, initialData, onSubmit, ...rest }: FormProps<T>) {
+function Form<T = any>({ children, initialData, onSubmit, onReset, ...rest }: FormProps<T>) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -22,8 +23,18 @@ function Form<T = any>({ children, initialData, onSubmit, ...rest }: FormProps<T
     onSubmit(data as T);
   };
 
+  const handleFormReset = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!formRef.current) return;
+
+    resetFormData(formRef.current.children);
+
+    if (onReset) onReset(event);
+  }
+
   return (
-    <form ref={formRef} onSubmit={handleSubmit} {...rest}>
+    <form ref={formRef} onReset={handleFormReset} onSubmit={handleSubmit} {...rest}>
       {children}
     </form>
   );

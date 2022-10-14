@@ -10,9 +10,9 @@
 interface IAddress {
   bairro: string;
   cep: string;
-  complemento?: string;
   localidade: string;
   logradouro: string;
-  numero?: number;
   uf: string;
+  complemento?: string;
+  numero?: string;
 }

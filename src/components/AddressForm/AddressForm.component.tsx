@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FaClipboard, FaClipboardCheck, FaTrash } from 'react-icons/fa';
 import { ValidationError } from 'yup';
 
@@ -26,6 +26,8 @@ const AddressForm = () => {
     try {
       await schema.validate(data, { abortEarly: false });
 
+      setAddress(data);
+
       const textAddress = addressToText(data);
 
       navigator.clipboard.writeText(textAddress);
@@ -36,7 +38,7 @@ const AddressForm = () => {
         heading: 'Endereço copiado!',
         message: textAddress,
         type: 'success',
-      })
+      });
     } catch (error) {
       if (error instanceof ValidationError) {
         const messages = getErrorMessages(error);
@@ -45,25 +47,30 @@ const AddressForm = () => {
           heading: 'Confira os dados inseridos',
           message: messages.join('\n'),
           type: 'error',
-        })
+        });
       }
     }
   };
 
   const handleReset = () => {
-    setAddress(null);
+    setAddress(undefined);
     setCEP({ value: '', error: false });
-  }
+  };
 
   return (
-    <Form<IAddress> id="address-form" onSubmit={handleSubmit} className={styles.form}>
+    <Form<IAddress>
+      id="address-form"
+      className={styles.form}
+      onReset={handleReset}
+      onSubmit={handleSubmit}
+    >
       <div className={styles.inputs}>
         <Input
           name="logradouro"
           label="Logradouro"
           disabled={!address || !!address.logradouro}
-          defaultValue={address?.logradouro}
           fixed
+          defaultValue={address?.logradouro}
           className={styles.item}
         />
 
@@ -71,7 +78,7 @@ const AddressForm = () => {
           name="numero"
           label="Número"
           fixed
-          disabled={!address}
+          disabled={!address || !!address.numero}
           defaultValue={address?.numero}
         />
 
@@ -79,7 +86,7 @@ const AddressForm = () => {
           name="complemento"
           label="Complemento"
           fixed
-          disabled={!address}
+          disabled={!address || !!address.complemento}
           defaultValue={address?.complemento}
         />
 
@@ -118,7 +125,12 @@ const AddressForm = () => {
       </div>
 
       <div className={styles.buttonsContainer}>
-        <Button.Tertiary className={styles.resetButton} disabled={!address} onClick={handleReset}>
+        <Button.Tertiary
+          className={styles.resetButton}
+          form="address-form"
+          type="reset"
+          disabled={!address}
+        >
           <FaTrash />
           Recomeçar
         </Button.Tertiary>

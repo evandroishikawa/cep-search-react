@@ -14,6 +14,8 @@ import { formatCEP } from '@/utils/formatters';
 
 import styles from './CEPInput.module.scss';
 
+type ViaCEPResponse = IAddress | { erro: 'true'; };
+
 const CEPInput = () => {
   const [loading, setLoading] = useState(false);
   const [cep, setCEP] = useAtom(cepAtom);
@@ -47,14 +49,28 @@ const CEPInput = () => {
       setLoading(true);
 
       await viaCEP
-        .get<Omit<IAddress, 'numero' | 'complemento'>>(`${cep.replace(/-/g, '')}/json`)
-        .then(({ data }) => setAddress({
-          bairro: data.bairro,
-          cep: data.cep,
-          localidade: data.localidade,
-          logradouro: data.logradouro,
-          uf: data.uf,
-        }))
+        .get<ViaCEPResponse>(`${cep.replace(/-/g, '')}/json`)
+        .then(({ data }) => {
+          if ('erro' in data) {
+            setCEP(prevCEP => ({ ...prevCEP, error: true }));
+            setAddress(undefined);
+            addToast({
+              heading: 'CEP inválido',
+              message: 'Confira os dados inseridos',
+              type: 'error',
+            });
+          } else {
+            setAddress({
+              bairro: data.bairro,
+              cep: data.cep,
+              localidade: data.localidade,
+              logradouro: data.logradouro,
+              uf: data.uf,
+              numero: data.numero,
+              complemento: '',
+            });
+          }
+        })
         .catch((error) => {
           console.error(error);
 
@@ -65,7 +81,7 @@ const CEPInput = () => {
             type: 'error',
           });
 
-          setAddress(null);
+          setAddress(undefined);
         })
         .finally(() => setLoading(false));
     }
@@ -82,7 +98,7 @@ const CEPInput = () => {
         error={cep.error}
       />
 
-      {loading && <Loader  />}
+      {loading && <Loader />}
     </div>
   );
 };
