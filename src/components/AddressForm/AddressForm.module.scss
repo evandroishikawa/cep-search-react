@@ -15,7 +15,7 @@
   gap: 16px;
 }
 
-.buttonContainer {
+.buttonsContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,4 +32,8 @@
 
 .item {
   flex: 1;
+}
+
+.resetButton {
+  gap: 8px;
 }

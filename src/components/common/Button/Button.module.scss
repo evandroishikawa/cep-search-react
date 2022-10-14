@@ -35,3 +35,17 @@
     color: #bee41e;
   }
 }
+
+.tertiary {
+  color: #32205f;
+  background: transparent;
+
+  &:disabled {
+    background: transparent;
+    color: #959595;
+  }
+
+  &:hover:not([disabled]) {
+    color: #bee41e;
+  }
+}

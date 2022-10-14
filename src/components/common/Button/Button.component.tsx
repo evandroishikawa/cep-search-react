@@ -2,10 +2,15 @@ import clsx from 'clsx';
 
 import styles from './Button.module.scss';
 
-const Button = ({ styling = 'primary', ...props }: ButtonProps) => {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  styling?: 'primary' | 'secondary' | 'tertiary';
+}
+
+const Button = ({ className, styling = 'primary', type = 'button', ...props }: ButtonProps) => {
   return (
     <button
-      className={clsx(styles.container, styles[styling], props.className)}
+      className={clsx(styles.container, styles[styling], className)}
+      type={type}
       {...props}
     />
   );

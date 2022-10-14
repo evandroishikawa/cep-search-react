@@ -1,9 +1,9 @@
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
-import { FaClipboard, FaClipboardCheck } from 'react-icons/fa';
+import { FaClipboard, FaClipboardCheck, FaTrash } from 'react-icons/fa';
 import { ValidationError } from 'yup';
 
-import { addressAtom } from '@/atoms';
+import { addressAtom, cepAtom } from '@/atoms';
 
 import { Button, Form, Input } from '@/components/common';
 
@@ -18,7 +18,8 @@ import styles from './AddressForm.module.scss';
 
 const AddressForm = () => {
   const [copied, setCopied] = useState(false);
-  const address = useAtomValue(addressAtom);
+  const [address, setAddress] = useAtom(addressAtom);
+  const setCEP = useSetAtom(cepAtom);
   const { addToast } = useToast();
 
   const handleSubmit = async (data: IAddress) => {
@@ -48,6 +49,11 @@ const AddressForm = () => {
       }
     }
   };
+
+  const handleReset = () => {
+    setAddress(null);
+    setCEP({ value: '', error: false });
+  }
 
   return (
     <Form<IAddress> id="address-form" onSubmit={handleSubmit} className={styles.form}>
@@ -111,7 +117,12 @@ const AddressForm = () => {
         />
       </div>
 
-      <div className={styles.buttonContainer}>
+      <div className={styles.buttonsContainer}>
+        <Button.Tertiary className={styles.resetButton} disabled={!address} onClick={handleReset}>
+          <FaTrash />
+          Recomeçar
+        </Button.Tertiary>
+
         <Button.Primary disabled={!address} form="address-form" type="submit">
           Copiar para compartilhar
         </Button.Primary>
