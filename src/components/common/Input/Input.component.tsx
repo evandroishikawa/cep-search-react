@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { forwardRef, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import type { InputHTMLAttributes, FocusEvent } from 'react';
 
 import styles from './Input.module.scss';
@@ -16,9 +16,18 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input = (({ className, name, error, fixed, hidden, label, success, ...rest }: InputProps) => {
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const id = useId();
 
   const handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
     if (!event.target.value) setFocused(false);
+  };
+
+  const handleContainerClick = () => {
+    if (rest.disabled) return;
+
+    setFocused(true);
+
+    inputRef.current?.focus();
   };
 
   return (
@@ -29,17 +38,11 @@ const Input = (({ className, name, error, fixed, hidden, label, success, ...rest
         [styles.disabled]: rest.disabled,
         [styles.hidden]: hidden,
       })}
-      onClick={() => {
-        if (rest.disabled) return;
-
-        setFocused(true);
-
-        inputRef.current?.focus();
-      }}
+      onClick={handleContainerClick}
     >
       {!!label && (
         <label
-          htmlFor={name + 'Input'}
+          htmlFor={id}
           className={clsx(styles.label, {
             [styles.labelFocused]: focused,
             [styles.labelSuccess]: success,
@@ -53,7 +56,7 @@ const Input = (({ className, name, error, fixed, hidden, label, success, ...rest
 
       <input
         ref={inputRef}
-        id={name + 'Input'}
+        id={id}
         name={name}
         className={clsx(styles.input)}
         onBlur={handleInputBlur}
